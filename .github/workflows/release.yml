@@ -76,7 +76,7 @@ jobs:
         run: exit 2
 
   build_and_test:
-    name: Build, Test
+    name: Build and Test on PR
     runs-on: ubuntu-latest
     outputs:
       job_status: ${{ job.status }}
@@ -123,7 +123,7 @@ jobs:
           echo "::set-output name=whl_filename::dist/pymegafon-${PLANNED_VERSION}-py3-none-any.whl"
 
   release:
-    name: Build, Test, Packages
+    name: Build, Test, Packages on Push
     runs-on: ubuntu-latest
 
     outputs:

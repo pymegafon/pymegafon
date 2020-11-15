@@ -89,7 +89,7 @@ class APIConnection():
 
         response = self.opener.open("%s?%s" % (self.get_internet_reiminigs_url, urllib.parse.urlencode(params)))
         self.internet_remainings = json.loads(response.read())
-        logging.info("Internet: %s" % self._get_internet_stat(self.internet_remainings))
+        logging.info("Internet: %s" % self._get_internet_stat())
 
     def _get_internet_remainder(self):
         for item in self.internet_remainings['remainders']:

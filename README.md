@@ -23,6 +23,20 @@ pip3 install pymegafon
 python3 -m pymegafon --help
 ```
 
+Check balance:
+```bash
+python3 -m pymegafon -l 79210001111 -p rND0mPw --check-balance
+INFO:root:Signing in...
+INFO:root:Balance: 302.44
+```
+
+Check internet subscription remainings:
+```bash
+python3 -m pymegafon -l 79210001111 -p rND0mPw --check-remainings
+INFO:root:Signing in...
+INFO:root:Internet: {'total': 30, 'available': 7.54}
+```
+
 ## Reporting bugs
 
 Please, use GitHub issues.

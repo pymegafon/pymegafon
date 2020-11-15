@@ -122,14 +122,6 @@ jobs:
 
           echo "::set-output name=whl_filename::dist/pymegafon-${PLANNED_VERSION}-py3-none-any.whl"
 
-      - name: Upload to pypi
-        env:
-          TWINE_USERNAME: ${{ secrets.PROD_PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PROD_PYPI_PASSWORD }}
-        run: |
-          twine upload "${{ steps.validate_whl.outputs.whl_filename }}"
-
-
   release:
     name: Build, Test, Packages
     runs-on: ubuntu-latest

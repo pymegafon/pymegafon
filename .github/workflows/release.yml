@@ -86,7 +86,8 @@ jobs:
       PLANNED_VERSION: ${{ needs.validate_new_version.outputs.planned_version }}
 
     if: >
-      needs.validate_new_version.outputs.branch_name != 'master'
+      needs.validate_new_version.outputs.branch_name != 'master' && 
+      github.event_name == 'pull_request'
     
     steps:
 

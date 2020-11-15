@@ -108,6 +108,7 @@ jobs:
       - name: Build python package
         run: |
           python setup.py sdist bdist_wheel
+          ls -la dist
 
       - name: Validate .whl
         id: validate_whl

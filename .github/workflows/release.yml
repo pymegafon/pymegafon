@@ -190,9 +190,6 @@ jobs:
 
           echo "Listing current changes..."
           git log --pretty=oneline --format='%w(200,0,2)- %s (%an <%ae>)' --date="format:%a %b %d %Y" "$current_tag"..HEAD | sort | tee "${release_changelog_filename}"
-          
-          echo "Changelog file..."
-          cat .changelog
 
           echo "Preparing a GitHub Release Changelog"
           cat << EOF > "${release_changelog_filename}"

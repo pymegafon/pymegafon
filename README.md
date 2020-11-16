@@ -23,18 +23,30 @@ $ python3 -m pip install --user pymegafon
 $ python3 -m pymegafon --help
 ```
 
-Check balance:
+#### Check balance
+
 ```bash
 $ python3 -m pymegafon -l 79210001111 -p rND0mPw --check-balance
 INFO:root:Signing in...
 INFO:root:Balance: 302.44
 ```
 
-Check internet subscription remainings:
+#### Check internet subscription remainings
+
 ```bash
 $ python3 -m pymegafon -l 79210001111 -p rND0mPw --check-remainings
 INFO:root:Signing in...
 INFO:root:Internet: {'total': 30, 'available': 7.54}
+```
+
+#### Ccredentials via environment
+
+You can pass your credentials via environment variables. This way just ommit auth related CLI parameters.
+
+```bash
+$ export MEGAFON_LOGIN="79210001111"
+$ export MEGAFON_PASSWORD="rND0mPw"
+$ python3 -m pymegafon --check-remainings
 ```
 
 ## Reporting bugs

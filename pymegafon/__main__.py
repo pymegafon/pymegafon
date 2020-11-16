@@ -11,4 +11,4 @@ if __name__ == '__main__':
 	parser.add_argument("--debug", "-d", dest="debug", required=False, default=False, action='store_true', help="Enable debug")
 	
 	args = parser.parse_args(sys.argv[1:])
-	main(login=args.login, password=args.password, do_check_balance=args.do_check_balance, debug=args.debug)
+	main(login=args.login, password=args.password, do_check_balance=args.do_check_balance, do_check_remainings=args.do_check_remainings, debug=args.debug)

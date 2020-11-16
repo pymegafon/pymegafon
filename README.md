@@ -14,25 +14,25 @@ There are two ways to use this "product": as a CLI tool and as a python module.
 ### Install `pymegafon` python package:
 
 ```bash
-pip3 install pymegafon
+$ python3 -m pip install --user pymegafon
 ```
 
 ### Run in CLI
 
 ```bash
-python3 -m pymegafon --help
+$ python3 -m pymegafon --help
 ```
 
 Check balance:
 ```bash
-python3 -m pymegafon -l 79210001111 -p rND0mPw --check-balance
+$ python3 -m pymegafon -l 79210001111 -p rND0mPw --check-balance
 INFO:root:Signing in...
 INFO:root:Balance: 302.44
 ```
 
 Check internet subscription remainings:
 ```bash
-python3 -m pymegafon -l 79210001111 -p rND0mPw --check-remainings
+$ python3 -m pymegafon -l 79210001111 -p rND0mPw --check-remainings
 INFO:root:Signing in...
 INFO:root:Internet: {'total': 30, 'available': 7.54}
 ```

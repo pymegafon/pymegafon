@@ -8,7 +8,7 @@ import logging
 from . import balance
 from . import credentials
 
-def main(login=None, password=None, do_check_balance=False, do_check_remainings=False, debug=False):
+def main(login=None, password=None, command=None, debug=False):
 
     if debug:
         loglevel = logging.DEBUG
@@ -29,15 +29,21 @@ def main(login=None, password=None, do_check_balance=False, do_check_remainings=
 
     connection = balance.APIConnection(login=uniformed_login, password=password)
 
-    if do_check_balance:
+    if command == 'do_check_balance':
         logging.debug("Check balance command invoked")
         connection.sign_in()
         connection.get_balance()
 
-    elif do_check_remainings:
+    elif command == 'do_check_remainings':
         logging.debug("Check internet subscription remainings command invoked")
         connection.sign_in()
-        connection.get_internet_remainings()
+        connection.get_all_remainings()
+
+
+    elif command == 'do_list_subscriptions':
+        logging.debug("List subscriptions command invoked")
+        connection.sign_in()
+        connection.list_subscriptions()
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.DEBUG)

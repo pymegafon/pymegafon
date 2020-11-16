@@ -5,7 +5,7 @@ This toolset allows you to automate manipulations with your MegaFon account.
 Currently implemented funcions:
 1. Sign in
 2. Retrieve account balance
-3. Retrieve internet subscription status
+3. Retrieve subscriptions status
 
 ## Quick start
 

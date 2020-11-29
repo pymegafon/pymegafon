@@ -39,7 +39,7 @@ def main(login=None, password=None, command=None, debug=False):
         logging.debug("Check option remainings command invoked")
         connection.sign_in()
         result = connection.get_all_remainings()
-        pprint(result)
+        print(result.decode())
 
 
     elif command == 'do_list_options':

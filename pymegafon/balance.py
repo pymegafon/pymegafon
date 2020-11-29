@@ -103,14 +103,27 @@ class APIConnection():
             "CSRF": self.csrf
         }
 
+        logging.info("Requesting remainings from API...")
+
         response = self.opener.open("%s?%s" % (self.get_internet_reiminigs_url, urllib.parse.urlencode(params)))
         self.internet_remainings = json.loads(response.read())
         logging.debug("Remainings: %s" % self.internet_remainings)
         
-        return self._process_remainings()
+        return json.dumps(self._process_remainings(), ensure_ascii=False).encode('utf8')
 
     def _process_remainings(self):
         remainings_dict = {}
+        option_fields = [
+            "name",
+            "totalValue",
+            "totalValueUnit",
+            "availableValue",
+            "availableValueUnit",
+            "optionId",
+            "monthly",
+            "groupId",
+            "validUntilDate",
+        ]
 
         logging.debug("Remaining keys: %s" % (self.internet_remainings.keys()))
         for remainder_item in self.internet_remainings['remainders']:
@@ -118,17 +131,12 @@ class APIConnection():
                 option_renew_date = remainder_item_service['dateTo'].split(" ")[0]
                 logging.info("Option: '%s' (Total: %s %s, Available: %s %s) Until: %s" % (remainder_item_service['name'], remainder_item_service['totalValue']['value'], remainder_item_service['totalValue']['unit'], remainder_item_service['availableValue']['value'], remainder_item_service['availableValue']['unit'], option_renew_date))
 
-                remainings_dict[remainder_item_service['name']] = {
-                    "name": remainder_item_service['name'],
-                    "totalValue": remainder_item_service['totalValue']['value'],
-                    "totalValueUnit": remainder_item_service['totalValue']['unit'],
-                    "availableValue": remainder_item_service['availableValue']['value'],
-                    "availableValueUnit": remainder_item_service['availableValue']['unit'],
-                    "optionId": remainder_item_service['optionId'],
-                    "monthly": remainder_item_service['monthly'],
-                    "groupId": remainder_item_service['groupId'],
-                    "validUntilDate": option_renew_date,
-                }
+                remainings_dict[remainder_item_service['name']] = {}
+                for field in option_fields:
+                    if field in remainder_item_service:
+                        remainings_dict[remainder_item_service['name']][field] = remainder_item_service[field]
+                    else:
+                        remainings_dict[remainder_item_service['name']][field] = None
     
         return remainings_dict
     

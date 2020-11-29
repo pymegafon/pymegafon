@@ -25,6 +25,7 @@ class APIConnection():
         self.csrf = None
         self.balance = None
         self.internet_remainings = None
+        self.options = None
 
         self.lk_start_url = common.LK_START_URL
         self.lk_login_url = common.LK_LOGIN_URL
@@ -79,7 +80,7 @@ class APIConnection():
         
         return self.balance
 
-    def list_subscriptions(self):
+    def list_options(self):
         if not self.csrf:
             raise Exception("Not signed in!")
 
@@ -88,9 +89,9 @@ class APIConnection():
         }
 
         response = self.opener.open("%s?%s" % (self.get_internet_reiminigs_url, urllib.parse.urlencode(params)))
-        self.subscriptions = json.loads(response.read())
-        logging.info("Internet: %s" % self.subscriptions)
-        pprint(self.subscriptions)
+        self.options = json.loads(response.read())
+        logging.info("Internet: %s" % self.options)
+        pprint(self.options)
         print(response.read())
 
 
@@ -105,13 +106,32 @@ class APIConnection():
         response = self.opener.open("%s?%s" % (self.get_internet_reiminigs_url, urllib.parse.urlencode(params)))
         self.internet_remainings = json.loads(response.read())
         logging.debug("Remainings: %s" % self.internet_remainings)
-        self._process_remainings()
+        
+        return self._process_remainings()
 
     def _process_remainings(self):
+        remainings_dict = {}
+
         logging.debug("Remaining keys: %s" % (self.internet_remainings.keys()))
         for remainder_item in self.internet_remainings['remainders']:
             for remainder_item_service in remainder_item['remainders']:
-                logging.info("Subscription: '%s' (Total: %s %s, Available: %s %s)" % (remainder_item_service['name'], remainder_item_service['totalValue']['value'], remainder_item_service['totalValue']['unit'], remainder_item_service['availableValue']['value'], remainder_item_service['availableValue']['unit']))
+                option_renew_date = remainder_item_service['dateTo'].split(" ")[0]
+                logging.info("Option: '%s' (Total: %s %s, Available: %s %s) Until: %s" % (remainder_item_service['name'], remainder_item_service['totalValue']['value'], remainder_item_service['totalValue']['unit'], remainder_item_service['availableValue']['value'], remainder_item_service['availableValue']['unit'], option_renew_date))
+
+                remainings_dict[remainder_item_service['name']] = {
+                    "name": remainder_item_service['name'],
+                    "totalValue": remainder_item_service['totalValue']['value'],
+                    "totalValueUnit": remainder_item_service['totalValue']['unit'],
+                    "availableValue": remainder_item_service['availableValue']['value'],
+                    "availableValueUnit": remainder_item_service['availableValue']['unit'],
+                    "optionId": remainder_item_service['optionId'],
+                    "monthly": remainder_item_service['monthly'],
+                    "groupId": remainder_item_service['groupId'],
+                    "validUntilDate": option_renew_date,
+                }
+    
+        return remainings_dict
+    
 
     def _get_internet_remainder(self):
         for item in self.internet_remainings['remainders']:

@@ -3,6 +3,7 @@
     Interacts with MegaFon
 """
 
+from pprint import pprint
 import logging
 
 from . import balance
@@ -35,13 +36,14 @@ def main(login=None, password=None, command=None, debug=False):
         connection.get_balance()
 
     elif command == 'do_check_remainings':
-        logging.debug("Check internet subscription remainings command invoked")
+        logging.debug("Check option remainings command invoked")
         connection.sign_in()
-        connection.get_all_remainings()
+        result = connection.get_all_remainings()
+        print(result.decode())
 
 
-    elif command == 'do_list_subscriptions':
-        logging.debug("List subscriptions command invoked")
+    elif command == 'do_list_options':
+        logging.debug("List options command invoked")
         connection.sign_in()
         connection.list_subscriptions()
 
